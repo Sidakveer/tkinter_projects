@@ -59,6 +59,25 @@ def save():
             website_input.delete(0, END)
             password_input.delete(0, END)
 
+# ---------------------------- Search password ------------------------------- #
+
+
+def search_pass():
+    try:
+        website = website_input.get()
+        with open("data.json", "r", encoding="utf-8") as file1:
+            x = json.load(file1)
+            
+    except FileNotFoundError:
+        messagebox.showerror(message="No data file found.")
+    else:
+        if website in x:
+            username = x[website]["email"]
+            password = x[website]["password"]
+            mes = f"{website}\nEmail: {username}\nPass: {password}"
+            messagebox.showinfo(message=mes)
+        else:
+            messagebox.showerror(message="No details for the website exist")
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -98,9 +117,8 @@ generate_password.grid(row=3, column=2)
 add_password = Button(text="Add", width=33, command=save)
 add_password.grid(row=4, column=1, columnspan=2)
 
-
-
-
+search = Button(text="Search", width=11, command=search_pass)
+search.grid(row=2, column=2)
 
 
 mainWindow.mainloop()

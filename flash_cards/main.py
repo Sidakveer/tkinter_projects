@@ -32,6 +32,14 @@ def card_switch():
     canvas.itemconfig(card_word, text=current_card["English"], fill="White")
 
 
+def is_known():
+    to_learn.remove(current_card)
+    new_card()
+    data2 = pandas.DataFrame(to_learn)
+    data2.to_csv("data/words_to_learn.csv", index=False)
+
+
+
 # UI SETUP
 mainWindow = Tk()
 mainWindow.title("Flashy")

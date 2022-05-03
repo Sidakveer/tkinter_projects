@@ -5,13 +5,20 @@ import pandas
 
 BACKGROUND_COLOR = "#B1DDC6"
 current_card = {}
+# to_learn = {}
+
+try:
+    data = pandas.read_csv("data/words_to_learn.csv")
+except FileNotFoundError:
+    data1 = pandas.read_csv("data/french_words.csv")
+    to_learn = data1.to_dict(orient="records")
+else:
+    to_learn = data.to_dict(orient="records")
 
 
 def new_card():
     global timer, current_card
     mainWindow.after_cancel(timer)
-    data = pandas.read_csv("data/french_words.csv")
-    to_learn = data.to_dict(orient="records")
     current_card = random.choice(to_learn)
     canvas.itemconfig(canvas_image, image=card_front_image)
     canvas.itemconfig(card_title, text="French", fill="black")
@@ -47,7 +54,7 @@ right_button = Button(image=image1, bg=BACKGROUND_COLOR, highlightthickness=0, c
 right_button.grid(row=1, column=0)
 
 image2 = PhotoImage(file="images/right.png")
-right_button = Button(image=image2, bg=BACKGROUND_COLOR, highlightthickness=0, command=new_card)
+right_button = Button(image=image2, bg=BACKGROUND_COLOR, highlightthickness=0, command=is_known)
 right_button.grid(row=1, column=1)
 
 new_card()
